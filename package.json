@@ -1,0 +1,35 @@
+{
+  "name": "meraki-webhook",
+  "version": "1.0.0",
+  "description": "Cisco Meraki Webhook Server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oscarGtz86/meraki-webhook.git"
+  },
+  "keywords": [
+    "Meraki",
+    "Webhook"
+  ],
+  "author": "Oscar Escamilla",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oscarGtz86/meraki-webhook/issues"
+  },
+  "homepage": "https://github.com/oscarGtz86/meraki-webhook#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-validator": "^6.14.0",
+    "hbs": "^4.2.0",
+    "mongoose": "^6.2.9",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.12.0"
+  }
+}
