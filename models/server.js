@@ -4,8 +4,9 @@
  * @date 28.03.2022
  */
 const compression = require('compression');
+const cors = require('cors');
 const express = require('express');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const morgan = require('morgan');
 const { dbConnection } = require('../database/config');
 const alerts = require('../routes/alerts');
@@ -48,6 +49,9 @@ class Server {
     middlewares () {
         // Use gzip compression
         this.app.use( compression() );
+        
+        // Use CORS
+        this.app.use( cors() );
 
         // Use helmet in PRODUCTION
         // https://www.npmjs.com/package/helmet
