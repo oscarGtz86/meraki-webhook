@@ -49,10 +49,10 @@ class Server {
         // Use gzip compression
         this.app.use( compression() );
 
-        // Use helmet default config
+        // Use helmet in PRODUCTION
         // https://www.npmjs.com/package/helmet
         // https://helmetjs.github.io/
-        this.app.use( helmet() );
+        // this.app.use( helmet() );
 
         // Morgan log
         this.app.use( morgan('combined') );
