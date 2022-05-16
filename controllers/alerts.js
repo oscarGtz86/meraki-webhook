@@ -21,6 +21,9 @@ const getAlerts = async (req, res, next) => {
                 .skip(Number(startAt))
                 .limit(Number(limit))
         ]);
+
+        req.logger.info(`Alerts: ${total}`);
+
         res.json({
             total,
             alerts
@@ -38,13 +41,17 @@ const getAlerts = async (req, res, next) => {
 const postAlert = async (req, res, next) => {
     try {
         const alert = req.body; // Get alert from body
-        if(alert.sharedSecret !== process.env.SECRET) {
+        req.logger.debug(alert);
+        req.logger.info(`${alert.deviceSerial} - ${alert.alertType}`);
+        if(alert.sharedSecret !== process.env.SECRET) { // Validate sharedSecret
             return res.status(401).json({
                 msg: 'Invalid secret'
             });
         }
+        // Remove sharedSecret
+        // const { sharedSecret, ...doc } = alert;
         let savedAlert = new Alert(alert);
-        savedAlert = await savedAlert.save(alert);
+        savedAlert = await savedAlert.save(alert);        
         res.json(savedAlert);
     } catch (error) {
         next(error);

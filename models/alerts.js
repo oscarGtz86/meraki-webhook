@@ -75,10 +75,10 @@ const AlertSchema = Schema({
     },
     sentAt: {
         type: String
-    },
-    sharedSecret: {
+    }, // secret must not be saved into database
+    /* sharedSecret: {
         type: String
-    },
+    }, */
     version: {
         type: Number
     },

@@ -8,8 +8,10 @@ const cors = require('cors');
 const express = require('express');
 // const helmet = require('helmet');
 const morgan = require('morgan');
+const logger = require('../helpers/winston'); // Winston logger
 const { dbConnection } = require('../database/config');
 const alerts = require('../routes/alerts');
+const uuidv4 = require('../middlewares/uuidv4');
 
 /**
  * Server class contains listen method, routes and middlewares
@@ -58,8 +60,8 @@ class Server {
         // https://helmetjs.github.io/
         // this.app.use( helmet() );
 
-        // Morgan log
-        this.app.use( morgan('combined') );
+        // Morgan logging
+        this.app.use(morgan('combined', { stream: logger.stream }));
 
         // For parsing application/json
         this.app.use( express.json() );
@@ -69,6 +71,21 @@ class Server {
 
         // Handlebars
         this.app.set( 'view engine', 'hbs' );
+
+        // Logging
+        this.app.use( (req, res, next) => {
+            req.winston = logger;
+            next();
+        });
+
+        // Inyect UUID v4 into logger
+        this.app.use( uuidv4 );
+
+        // Logging IP, method and path
+        this.app.use( (req, res, next) => {
+            req.logger.info(`${req.ip} ${req.protocol} ${req.method} ${req.path} ${req.headers['user-agent']}`);
+            next();
+        });
 
     }
 
