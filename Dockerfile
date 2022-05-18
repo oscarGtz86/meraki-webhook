@@ -13,6 +13,9 @@ FROM node:14
 # Work directory
 WORKDIR /home/node
 
+# Create folder structure
+RUN mkdir -p /home/node/logs
+
 # Copy package.json
 COPY package.json .
 

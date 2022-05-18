@@ -5,6 +5,7 @@
  */
 const { request, response } = require("express");
 const { validationResult } = require("express-validator");
+const Alert = require('../models/alerts');
 
 /**
  * 
@@ -16,6 +17,8 @@ const { validationResult } = require("express-validator");
 const validateFields = (req = request, res = response, next) => {
     const errors = validationResult(req); // Extracts the validation errors
     if ( !errors.isEmpty() ) { // If errors exists then return them
+        req.logger.error(` Found ${errors.array.length} error(s)`);
+        req.logger.debug( errors );
         return res.status( 400 ).json( errors );
     }
     next();
@@ -41,7 +44,19 @@ const emptyBody = (req = request, res = response, next) => {
     next();
 }
 
+/**
+ * Validate if mongo id exists
+ * @param {MongoId} _id Mongo _id
+ */
+ const ifIdExists = async (id) => {
+    const idExists = await Alert.findById( id );
+    if ( !idExists ) {
+        throw new Error(`Id ${id} not found`);
+    }
+}
+
 module.exports = {
     validateFields,
     emptyBody,
+    ifIdExists,
 }

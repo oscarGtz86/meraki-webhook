@@ -42,14 +42,13 @@ const postAlert = async (req, res, next) => {
     try {
         const alert = req.body; // Get alert from body
         req.logger.debug(alert);
-        req.logger.info(`${alert.deviceSerial} - ${alert.alertType}`);
         if(alert.sharedSecret !== process.env.SECRET) { // Validate sharedSecret
+            req.logger.warn('Invalid secret');
             return res.status(401).json({
                 msg: 'Invalid secret'
             });
         }
-        // Remove sharedSecret
-        // const { sharedSecret, ...doc } = alert;
+        req.logger.info(`${alert.deviceSerial} - ${alert.alertType}`);
         let savedAlert = new Alert(alert);
         savedAlert = await savedAlert.save(alert);        
         res.json(savedAlert);

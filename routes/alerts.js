@@ -7,7 +7,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { getAlerts, postAlert, deleteAlert } = require('../controllers/alerts');
-const { validateFields, emptyBody } = require('../middlewares/validate-fields');
+const { validateFields, emptyBody, ifIdExists } = require('../middlewares/validate-fields');
 const { validateSecret } = require('../middlewares/validate-secret');
 
 const router = new Router();
@@ -40,6 +40,7 @@ router.post('/', [
  router.delete('/:id', [
     validateSecret,
     check('id', 'Not a valid id').isMongoId(),
+    check( 'id' ).custom( ifIdExists ),
     validateFields,
 ], deleteAlert);
 

@@ -14,7 +14,7 @@ const validateSecret = async ( req = request, res = response, next ) => {
 
     // If header is empty or incorrect authentication
     if ( !header || header.indexOf('Bearer ') === -1) {
-        console.log('Invalid Header');
+        req.logger.warn('Invalid Header');
         return res.status(401).json({
             msg: 'No authorized'
         });
@@ -24,6 +24,7 @@ const validateSecret = async ( req = request, res = response, next ) => {
         const [, secret] = header.split(' ');
         
         if ( secret !== process.env.SECRET ) { // If incorrect secret
+            req.logger.warn('No authorized');
             return res.status(401).json({
                 msg: 'No authorized'
             });
@@ -32,6 +33,7 @@ const validateSecret = async ( req = request, res = response, next ) => {
         next();
 
     } catch (error) {
+        req.logger.error( error.stack );
         return res.status( 401 ).json({
             msg: 'No authorized'
         });
