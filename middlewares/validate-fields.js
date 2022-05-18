@@ -5,7 +5,7 @@
  */
 const { request, response } = require("express");
 const { validationResult } = require("express-validator");
-const Alert = require('../models/alerts');
+const Alert = require('../models/alert');
 
 /**
  * 

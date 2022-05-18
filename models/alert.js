@@ -102,4 +102,4 @@ const AlertSchema = Schema({
     },
 });
 
-module.exports = model('Alerts', AlertSchema);
+module.exports = model('Alert', AlertSchema);

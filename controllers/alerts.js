@@ -4,7 +4,7 @@
  * @date 28.03.2022
  */
 
-const Alert = require('../models/alerts');
+const Alert = require('../models/alert');
 
 /**
  * Find and get alerts
@@ -24,7 +24,7 @@ const getAlerts = async (req, res, next) => {
 
         req.logger.info(`Alerts: ${total}`);
 
-        res.json({
+        res.status( 200 ).json({
             total,
             alerts
         });
@@ -50,8 +50,8 @@ const postAlert = async (req, res, next) => {
         }
         req.logger.info(`${alert.deviceSerial} - ${alert.alertType}`);
         let savedAlert = new Alert(alert);
-        savedAlert = await savedAlert.save(alert);        
-        res.json(savedAlert);
+        savedAlert = await savedAlert.save(alert);
+        res.status( 201 ).json(savedAlert);
     } catch (error) {
         next(error);
     }
