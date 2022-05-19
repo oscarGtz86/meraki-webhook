@@ -132,6 +132,27 @@ describe('Webhook endpoints', () => {
             expect(jsonResponse.deviceSerial).toEqual(alerts[0].deviceSerial);
         });
     });
+
+    describe('DELETE alert', () => {
+        test('DELETE: should delete alert', async () => {
+            const req = {
+                params: { id: 1 },
+                logger: {
+                    info: console.log
+                }
+            }; // Mock parameters
+            const res = { // Mock express Response
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn()
+            }
+            const next = (err) => { console.error(err) };
+            
+            await deleteAlert(req, res, next); // Invoke method
+    
+            /** Should return 200 **/
+            expect(res.status.mock.calls).toEqual([[ 200 ]]);
+        });
+    });
  });
 
 /**

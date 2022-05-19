@@ -65,7 +65,7 @@ const deleteAlert = async (req, res, next) => {
     try {
         const { id } = req.params; // Get id from params
         const alert = await Alert.findByIdAndDelete(id);
-        res.json(alert);
+        res.status( 200 ).json(alert);
     } catch (error) {
         next(error);
     }
